@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+    <class name="com.mikadosolutions.training.hibernate.onetoonexml.Employee" table="Employee">
+    	<id name="id" column="id">
+    		<generator class="native"/>
+    	</id>
+    	<property name="firstName" column="first_name"/>
+    	<property name="lastName" column="last_name"/>
+    	<property name="salary" column="salary"/>
+    	<!-- <one-to-one name="certificate" class="com.mikadosolutions.training.hibernate.onetoonexml.MCertificate" property-ref="employee" cascade="all"/> -->
+    	
+    	<!-- When employee is the owner, will have many-to-one with unique=true -->
+    	<many-to-one name="certificate" column="certificate_id" cascade="all-delete-orphan" class="com.mikadosolutions.training.hibernate.onetoonexml.MCertificate" 
+    				unique="true" lazy="false"/>
+    </class>
+    
+    <class name="com.mikadosolutions.training.hibernate.onetoonexml.MCertificate" table="Certificate">
+    	<id name="id" column="id">
+    		<generator class="native"/>
+    	</id>
+    	<property name="name" column="certificate_name"/>
+    	
+    	<!-- put this when he is the owner of relationship -->
+    	<!-- <many-to-one name="employee" column="employee_id" cascade="all" class="com.mikadosolutions.training.hibernate.onetoonexml.Employee" unique="true"/> -->
+    	
+    	<one-to-one name="employee" class="com.mikadosolutions.training.hibernate.onetoonexml.Employee" property-ref="certificate"/>
+    </class>
+</hibernate-mapping>
